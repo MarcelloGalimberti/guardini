@@ -137,14 +137,12 @@ def vanilla_model (df):
     set_random_seed(0)
     #m_np = NeuralProphet(n_lags=10) # - secondo test
     #m_np = NeuralProphet() # global - primo test
-    m_np = NeuralProphet( # terzo test
+    m_np = NeuralProphet(
         trend_global_local='local',
         season_global_local='local',
         seasonality_mode='multiplicative',
-        n_lags=12, n_forecasts=4, # , quarto test con lags, n_forecasts serve per previsione multi-step
-        ar_layers=[8,8],
-         # quinto test
-    )
+        n_lags=12, n_forecasts=4,
+        ar_layers=[8,8])
     m_np.set_plotting_backend('plotly')
     m_np.fit(df, freq='MS') # modifica
     return m_np
