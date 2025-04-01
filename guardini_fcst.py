@@ -132,7 +132,7 @@ st.subheader('Database processato', divider='orange')
 st.dataframe(df_dati_np)
 
 
-@st.cache_data
+@st.cache_resource # modificato da cache_data
 def vanilla_model (df):
     set_random_seed(0)
     #m_np = NeuralProphet(n_lags=10) # - secondo test
