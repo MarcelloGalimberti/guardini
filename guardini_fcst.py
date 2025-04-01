@@ -143,7 +143,7 @@ def vanilla_model (df):
         seasonality_mode='multiplicative',
         n_lags=12, n_forecasts=4, # , quarto test con lags, n_forecasts serve per previsione multi-step
         ar_layers=[8,8],
-        holidays = False # quinto test
+         # quinto test
     )
     m_np.set_plotting_backend('plotly')
     m_np.fit(df, freq='MS') # modifica
