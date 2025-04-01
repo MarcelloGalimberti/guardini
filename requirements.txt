@@ -8,5 +8,5 @@ openpyxl
 ipython
 neuralprophet
 xlsxwriter
-holidays==0.23.0
+
 
