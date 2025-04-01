@@ -6,7 +6,7 @@ matplotlib
 plotly-express
 openpyxl
 ipython
-neuralprophet
 xlsxwriter
-
+neuralprophet[live]
+prophet
 
