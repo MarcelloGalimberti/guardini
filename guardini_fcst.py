@@ -142,7 +142,8 @@ def vanilla_model (df):
         #season_global_local='local',
         seasonality_mode='multiplicative',
         n_lags=12, n_forecasts=4,
-        ar_layers=[8,8])
+        #ar_layers=[8,8]
+        )
     m_np.set_plotting_backend('plotly')
     m_np.fit(df, freq='MS') # modifica
     return m_np
