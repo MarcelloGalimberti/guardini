@@ -138,8 +138,8 @@ def vanilla_model (df):
     #m_np = NeuralProphet(n_lags=10) # - secondo test
     #m_np = NeuralProphet() # global - primo test
     m_np = NeuralProphet(
-        trend_global_local='local',
-        season_global_local='local',
+        #trend_global_local='local',
+        #season_global_local='local',
         seasonality_mode='multiplicative',
         n_lags=12, n_forecasts=4,
         ar_layers=[8,8])
