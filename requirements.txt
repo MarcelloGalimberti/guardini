@@ -3,7 +3,7 @@ aiohappyeyeballs==2.4.4
 aiohttp==3.11.10
 aiosignal==1.3.2
 altair==5.5.0
-appnope @ file:///home/conda/feedstock_root/build_artifacts/appnope_1733332318622/work
+
 asttokens @ file:///home/conda/feedstock_root/build_artifacts/asttokens_1733250440834/work
 async-timeout==5.0.1
 attrs==24.2.0
