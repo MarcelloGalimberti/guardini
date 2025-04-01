@@ -6,7 +6,7 @@ matplotlib
 plotly-express
 openpyxl
 ipython
-neuralprophet==0.9.0
+neuralprophet
 xlsxwriter
 holidays==0.23.0
 
