@@ -1244,7 +1244,7 @@ df_galileo_unito = df_galileo_unito.drop(columns=date_cols[0])
 #rimuove la colonna Forecast_SBA_Mensile
 df_galileo_unito = df_galileo_unito.drop(columns=['Forecast_SBA_Mensile'])
 # Rimuove le righe con valori 0 nelle colonne data
-df_galileo_unito = df_galileo_unito[(df_galileo_unito[date_cols[1:]] != 0).all(axis=1)]
+df_galileo_unito = df_galileo_unito[(df_galileo_unito[date_cols[1:]] != 0).any(axis=1)]
 
 
 #st.write('df_galileo_unito')
