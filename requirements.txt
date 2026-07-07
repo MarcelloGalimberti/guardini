@@ -1,19 +1,16 @@
-aiohttp==3.11.10
-importlib-metadata==8.6.1
-ipykernel==6.29.5
-jaraco.collections==5.1.0
-livelossplot==0.5.5
-nbformat==5.10.4
-neuralprophet==0.9.0
-opencv-python==4.11.0.86
-openpyxl==3.1.5
-pdf2image==1.17.0
-pickleshare==0.7.5
-pip-chill==1.0.3
-plotly-express==0.4.1
-prophet==1.1.6
-pytesseract==0.3.13
-python-docx==1.1.2
+# ============================================================
+# requirements per app Forecasting Guardini v8 (Streamlit)
+# Solo le dipendenze effettivamente usate dall'app.
+# pandas, numpy, scipy, torch vengono installati automaticamente
+# come dipendenze di neuralprophet (non serve elencarli/pinnarli:
+# neuralprophet risolve le versioni compatibili da solo).
+# ============================================================
+
 streamlit==1.41.1
-tomli==2.0.1
+neuralprophet==0.9.0
+plotly==5.24.1
+openpyxl==3.1.5
 xlsxwriter==3.2.2
+
+# --- Abilitare SOLO se si riattiva il bottone "Ottimizza (Optuna)" ---
+# optuna==3.6.1
