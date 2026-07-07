@@ -1,13 +1,14 @@
 # ============================================================
 # requirements per app Forecasting Guardini v8 (Streamlit)
 # Solo le dipendenze effettivamente usate dall'app.
-# pandas, numpy, scipy, torch vengono installati automaticamente
-# come dipendenze di neuralprophet (non serve elencarli/pinnarli:
-# neuralprophet risolve le versioni compatibili da solo).
+# pandas, numpy, torch vengono installati automaticamente come
+# dipendenze di neuralprophet. scipy NON è incluso da neuralprophet
+# e va elencato esplicitamente (usato in scipy.stats.linregress).
 # ============================================================
 
 streamlit==1.41.1
 neuralprophet==0.9.0
+scipy
 plotly==5.24.1
 openpyxl==3.1.5
 xlsxwriter==3.2.2
