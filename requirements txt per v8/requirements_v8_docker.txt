@@ -1,0 +1,22 @@
+# ============================================================
+# requirements per app Forecasting Guardini v8 (Docker/Streamlit)
+# Solo le dipendenze effettivamente usate dall'app.
+# pandas, numpy vengono installati automaticamente come
+# dipendenze di neuralprophet. torch è installato separatamente
+# nel Dockerfile (build CPU-only). scipy NON è incluso da
+# neuralprophet e va elencato esplicitamente (scipy.stats.linregress).
+#
+# pandas/pyarrow pinnati alle versioni dell'ambiente conda locale
+# "neuralprophet" (funzionante): senza pin, pip prende pyarrow
+# latest (25.x) che segfaulta in pandas_compat.convert_column
+# durante st.dataframe() su alcuni DataFrame reali.
+# ============================================================
+
+streamlit==1.41.1
+neuralprophet==0.9.0
+scipy
+plotly==5.24.1
+openpyxl==3.1.5
+xlsxwriter==3.2.2
+pandas==2.2.3
+pyarrow==18.1.0
