@@ -1,0 +1,9 @@
+# Allowlist: escludi tutto, poi riammetti solo ciò che serve alla build.
+*
+
+!Dockerfile
+!requirements.txt
+!guardini_j_galileo_v8.py
+!guardini.png
+!modelli
+!modelli/*

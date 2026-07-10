@@ -1,9 +1,10 @@
 # ============================================================
-# requirements per app Forecasting Guardini v8 (Streamlit)
+# requirements per app Forecasting Guardini v8 (Docker/Streamlit)
 # Solo le dipendenze effettivamente usate dall'app.
-# pandas, numpy, torch vengono installati automaticamente come
-# dipendenze di neuralprophet. scipy NON è incluso da neuralprophet
-# e va elencato esplicitamente (usato in scipy.stats.linregress).
+# pandas, numpy vengono installati automaticamente come
+# dipendenze di neuralprophet. torch è installato separatamente
+# nel Dockerfile (build CPU-only). scipy NON è incluso da
+# neuralprophet e va elencato esplicitamente (scipy.stats.linregress).
 # ============================================================
 
 streamlit==1.41.1
@@ -12,6 +13,3 @@ scipy
 plotly==5.24.1
 openpyxl==3.1.5
 xlsxwriter==3.2.2
-
-# --- Abilitare SOLO se si riattiva il bottone "Ottimizza (Optuna)" ---
-# optuna==3.6.1

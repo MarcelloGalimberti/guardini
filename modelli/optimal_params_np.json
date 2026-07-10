@@ -1,0 +1,15 @@
+{
+    "params": {
+        "learning_rate": 0.007069225754461262,
+        "epochs": 87,
+        "n_changepoints": 4,
+        "trend_reg": 3.082191150363236,
+        "seasonality_reg": 1.4618123824730043,
+        "ar_layers": [],
+        "normalize": "standardize",
+        "loss_func": "Huber",
+        "seasonality_mode": "additive"
+    },
+    "best_mae": 8548.029963672974,
+    "last_update": "2026-02-15 20:47:56"
+}

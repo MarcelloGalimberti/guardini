@@ -1198,13 +1198,16 @@ st.subheader('Adattamento del forecasting a J-Galileo', divider='orange')
 
 df_galileo = predicted_da_scaricare.copy()
 df_galileo = df_galileo[['ID', 'Data', 'Quantità Forecast']]
+
 # rimuove righe None
 df_galileo = df_galileo.dropna(subset=['Quantità Forecast'])
+
 # arrotonda e converte in intero
 df_galileo['Quantità Forecast'] = df_galileo['Quantità Forecast'].round(0).astype(int)
 df_galileo.rename(columns={'ID':'Articolo'}, inplace=True)
 
 df_galileo['Quantità Forecast'] = df_galileo['Quantità Forecast'].astype(int)
+
 df_galileo_pivot = df_galileo.pivot(index='Articolo', columns='Data', values='Quantità Forecast')
 df_galileo_pivot.reset_index(inplace=True)
 df_galileo_pivot['Proprietà'] = 0
@@ -1214,7 +1217,8 @@ df_galileo_pivot['Magazzino'] = df_galileo_pivot['Magazzino'].astype(str)
 #ordina colonne: Articolo, Proprietà, Magazzino, e poi le date
 df_galileo_pivot = df_galileo_pivot[['Articolo', 'Proprietà', 'Magazzino'] + [col for col in df_galileo_pivot.columns if col not in ['Articolo', 'Proprietà', 'Magazzino']]]
 
-#df_galileo_pivot
+st.write('df_galileo_pivot con formato adatto per J-Galileo')
+df_galileo_pivot
 # inserisci pulsante per scaricare df_galileo_pivot in excel
 #scarica_excel(df_galileo_pivot, 'df_galileo_pivot.xlsx')
 
@@ -1222,14 +1226,24 @@ df_galileo_pivot = df_galileo_pivot[['Articolo', 'Proprietà', 'Magazzino'] + [c
 df_galileo_sba = df_stat_forecast.copy()
 df_galileo_sba.rename(columns={'Codice Articolo':'Articolo'}, inplace=True)
 
+st.write('df_galileo_sba')
+st.dataframe(df_galileo_sba)
+
 
 # Creazione file unico con df_galileo_pivot e df_galileo_sba
 df_galileo_unito = pd.concat([df_galileo_pivot, df_galileo_sba], ignore_index=True)
+
+st.write('df_galileo_unito con previsioni NeuralProphet e SBA')
+st.dataframe(df_galileo_unito)
+
 df_galileo_unito['Proprietà']=0
 df_galileo_unito['Magazzino']=100
 df_galileo_unito['Proprietà'] = df_galileo_unito['Proprietà'].astype(str)
 df_galileo_unito['Magazzino'] = df_galileo_unito['Magazzino'].astype(str)
 df_galileo_unito['Metodo'].fillna('NeuralProphet', inplace=True)
+
+st.write('df_galileo_unito con previsioni NeuralProphet e SBA, e colonne Proprietà e Magazzino valorizzate')
+st.dataframe(df_galileo_unito)
 
 # Logica per riempire le colonne data con il valore di Forecast_SBA_Mensile per le righe SBA
 cols_escluse = ['Articolo', 'Proprietà', 'Magazzino', 'Metodo', 'Forecast_SBA_Mensile', 'Codice Articolo']
@@ -1243,12 +1257,18 @@ for col in date_cols:
 df_galileo_unito = df_galileo_unito.drop(columns=date_cols[0])
 #rimuove la colonna Forecast_SBA_Mensile
 df_galileo_unito = df_galileo_unito.drop(columns=['Forecast_SBA_Mensile'])
+
+st.write('df_galileo prima del secondo drop')
+st.dataframe(df_galileo_unito)
+
+st.write('colonne data:', date_cols[1:])
+
 # Rimuove le righe con valori 0 nelle colonne data
 df_galileo_unito = df_galileo_unito[(df_galileo_unito[date_cols[1:]] != 0).any(axis=1)]
 
 
-#st.write('df_galileo_unito')
-#st.dataframe(df_galileo_unito)
+st.write('df_galileo_unito dopo secondo drop')
+st.dataframe(df_galileo_unito)
 # aggiunge a df_galileo_unito una colonna vuota 'Cliente/Fornitore' e la sposta in prima posizione
 df_galileo_unito.insert(0, 'Cliente/Fornitore', '')
 # aggiunnge a df_galileo_unito una colonna vuota 'Commessa' e la sposta in terza posizione
