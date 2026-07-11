@@ -1,13 +1,17 @@
+# Webapp v9 (FastAPI+React) — deployment SEPARATO dalla v8 in produzione:
+# la v8 Streamlit resta in /opt/guardini (container `guardini`, 8504→8507
+# pubblica) e NON va toccata finché il cliente non migra. Questa webapp va
+# clonata in /opt/guardini-v9 (container `guardini-v9`, 8508→8509 pubblica).
 services:
   app:
     build: .
-    container_name: guardini
+    container_name: guardini-v9
     restart: unless-stopped
     shm_size: '1gb'
     environment:
       - PYTHONFAULTHANDLER=1
     ports:
-      - "127.0.0.1:8504:8501"
+      - "127.0.0.1:8508:8501"
     volumes:
       - guardini_runs:/data/runs
 

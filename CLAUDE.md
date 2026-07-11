@@ -106,28 +106,46 @@ scavolini-codifica, llg-monitor, istruzioni-montaggio): un container Docker
 espone l'app su una porta interna localhost, e l'**nginx di sistema** (già
 presente sul server, non nginx-in-Docker) la espone verso l'esterno.
 
-| Voce | Valore |
-|------|--------|
-| Server | Hetzner CPX22, IP `65.21.182.192` (hostname `streamlit-server`) |
-| Path sul server | `/opt/guardini` |
-| Repo GitHub | `github.com/MarcelloGalimberti/guardini` (branch `main`) |
-| Container | `guardini`, porta interna Docker `127.0.0.1:8504` → `8501` (Streamlit) |
-| Porta pubblica nginx | **8507** (http://65.21.182.192:8507), nessuna auth |
-| Altri container sullo stesso server | 8501 analisi-clienti, 8502 scavolini-codifica, 8503 llg-monitor, 8506 istruzioni-montaggio (pubblico 8505 con Basic Auth) |
+**Deployment AFFIANCATO (decisione 2026-07-11)**: la v8 Streamlit usata dal
+cliente resta intoccata; la webapp v9 va in una directory e su porte separate.
 
-File di deploy nel repo: `Dockerfile`, `requirements.txt`, `docker-compose.yml`,
-`nginx.conf`, `.dockerignore`. `nginx.conf` va copiato a mano in
-`/etc/nginx/sites-available/guardini` e linkato in `sites-enabled` (fatto una
-tantum, non si aggiorna da solo col `git pull`).
+| Voce | v8 (produzione cliente) | v9 webapp (nuova) |
+|------|------------------------|-------------------|
+| Path sul server | `/opt/guardini` (NON toccare, NON fare git pull) | `/opt/guardini-v9` |
+| Container | `guardini`, interna `127.0.0.1:8504` | `guardini-v9`, interna `127.0.0.1:8508` |
+| Porta pubblica nginx | **8507** | **8509** |
+| Sito nginx | `sites-available/guardini` | `sites-available/guardini-v9` (da `nginx-v9.conf`) |
 
-### Aggiornare l'app dopo modifiche al codice
+Server: Hetzner CPX22, IP `65.21.182.192`. Repo:
+`github.com/MarcelloGalimberti/guardini` (branch `main` — ora contiene la
+webapp; per questo /opt/guardini non va più aggiornato col pull).
+Altri container: 8501 analisi-clienti, 8502 scavolini-codifica, 8503
+llg-monitor, 8506 istruzioni-montaggio (pubblico 8505 con Basic Auth).
+
+### Primo deploy webapp v9 (una tantum)
 
 ```bash
 ssh root@65.21.182.192
-cd /opt/guardini
+git clone https://github.com/MarcelloGalimberti/guardini.git /opt/guardini-v9
+cd /opt/guardini-v9
+docker compose up -d --build
+cp nginx-v9.conf /etc/nginx/sites-available/guardini-v9
+ln -s /etc/nginx/sites-available/guardini-v9 /etc/nginx/sites-enabled/
+nginx -t && systemctl reload nginx
+```
+
+### Aggiornare la webapp dopo modifiche al codice
+
+```bash
+ssh root@65.21.182.192
+cd /opt/guardini-v9
 git pull
 docker compose up -d --build
 ```
+
+Quando il cliente migra alla v9: spegnere la v8 (`docker stop guardini`),
+eventualmente puntare la 8507 al nuovo container aggiornando il vecchio sito
+nginx (proxy_pass → 8508).
 
 ### Log e stato
 
