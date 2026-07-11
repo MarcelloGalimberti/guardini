@@ -8,3 +8,8 @@ services:
       - PYTHONFAULTHANDLER=1
     ports:
       - "127.0.0.1:8504:8501"
+    volumes:
+      - guardini_runs:/data/runs
+
+volumes:
+  guardini_runs:

@@ -1,25 +1,33 @@
-# Guardini — Forecasting NeuralProphet (Streamlit)
-FROM python:3.10-slim
+# Guardini — Forecasting (FastAPI + React, container unico)
+# Stage 1: build del frontend
+FROM node:22-slim AS frontend
+WORKDIR /build
+COPY frontend/package.json frontend/package-lock.json* ./
+RUN npm install --no-audit --no-fund
+COPY frontend/ .
+RUN npm run build
+
+# Stage 2: runtime Python
+FROM python:3.11-slim
 
 WORKDIR /app
 
-# libgomp1: richiesta a runtime da torch/scipy per il multi-threading
+# libgomp1: richiesta a runtime da numba/statsforecast per il multi-threading
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
-# Torch CPU-only: il server Hetzner non ha GPU. Installandolo prima si evita
-# che neuralprophet trascini la build CUDA di default (~2 GB in più, inutile
-# e potenziale causa di crash per esaurimento memoria su VM piccole).
-RUN pip install --no-cache-dir torch==2.5.1 --index-url https://download.pytorch.org/whl/cpu
-
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY guardini_j_galileo_v8.py .
-COPY guardini.png .
-COPY modelli/ ./modelli/
+COPY engine/ ./engine/
+COPY backend/ ./backend/
+COPY --from=frontend /build/dist ./frontend/dist
+
+# I run vengono persistiti fuori dal container (volume in docker-compose.yml)
+ENV GUARDINI_RUNS_DIR=/data/runs
+ENV GUARDINI_N_JOBS=2
 
 EXPOSE 8501
 
-ENTRYPOINT ["streamlit", "run", "guardini_j_galileo_v8.py", "--server.port=8501", "--server.address=0.0.0.0"]
+CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8501"]

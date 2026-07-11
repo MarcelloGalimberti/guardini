@@ -5,3 +5,15 @@ __pycache__/
 # Log di training PyTorch Lightning e dati locali: pesanti, rigenerabili, non da versionare
 lightning_logs/
 dati/
+
+# Frontend: dipendenze e build (rigenerati da npm / Docker)
+frontend/node_modules/
+frontend/dist/
+
+# Run salvati dal backend (dati di lavoro, non da versionare)
+runs_data/
+
+# Risultati di backtest voluminosi (rigenerabili con run_backtest.py)
+backtest/results/parts/
+backtest/results/parts_tmp/
+backtest/results/backtest_detail.csv
