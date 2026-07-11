@@ -1,9 +1,16 @@
-# Allowlist: escludi tutto, poi riammetti solo ciò che serve alla build.
+# Allowlist: escludi tutto, poi riammetti solo ciò che serve alla build
+# della webapp v9 (backend FastAPI + engine + frontend React).
 *
 
 !Dockerfile
 !requirements.txt
-!guardini_j_galileo_v8.py
-!guardini.png
-!modelli
-!modelli/*
+!engine
+!engine/**
+!backend
+!backend/**
+!frontend
+!frontend/**
+
+# Dentro frontend/: niente dipendenze locali né build (rigenerate nello stage node)
+frontend/node_modules
+frontend/dist
